@@ -305,17 +305,16 @@ public class completableFutureTest {
                 .mapToObj(i ->
                         longCost(i)).collect(Collectors.toList());
         CompletableFuture<Object> firstCompleted = CompletableFuture.anyOf(futures.toArray(new CompletableFuture[]{}));
-//        try {
-//            firstCompleted.get();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            firstCompleted.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         firstCompleted.thenAccept((Object result) -> {
             System.out.println("get at:"+System.currentTimeMillis()+",first result:"+result);
         });
 
         //需要再主线程get或join 获取对应值
-        Thread.sleep(10000); //wait
     }
 
     private CompletableFuture<String> longCost(long i){
